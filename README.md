@@ -2,6 +2,7 @@
 
 > Download torrents from YTS, 1337x and Nyaa.si, all from one app
 
+ ![](https://media.giphy.com/media/mCnTJNsJWyLZXd0vOv/giphy.gif)
 
 ## How to install
 
