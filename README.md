@@ -1,22 +1,23 @@
 # Torrents
 
-> All torrents in one place
+> Download torrents from YTS, 1337x and Nyaa.si, all from one app
 
-## Build Setup
+
+## How to install
 
 ``` bash
+
+#clone the repo
+$ git clone https://github.com/ManishKarki1997/torrents.git
+
 # install dependencies
 $ npm run install
 
-# serve with hot reload at localhost:3000
+# serve with hot reload at localhost:8080
 $ npm run dev
 
-# build for production and launch server
-$ npm run build
-$ npm run start
+# make sure to clone the api and start it for this app to work from https://github.com/ManishKarki1997/torrents-api
+> for the api, follow the instructions here 
+> https://github.com/ManishKarki1997/torrents-api
 
-# generate static project
-$ npm run generate
 ```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
