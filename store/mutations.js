@@ -1,6 +1,6 @@
 const mutation = {
-    setSearchRrsults(state, { payload }) {
-       
+    setTorrentToSearch(state, payload) {
+        state.torrentToSearch = payload;
     },
 }
 

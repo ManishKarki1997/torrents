@@ -1,5 +1,8 @@
 function state() {
     return {
+        torrentToSearch: {
+
+        }
     }
 }
 

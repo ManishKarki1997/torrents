@@ -1,14 +1,12 @@
-// import VuexPersist from 'vuex-persist';
+import VuexPersist from 'vuex-persist';
 
-// const vuexLocalStorage = new VuexPersist({
-//     key: 'nuxt-ideas',
-//     storage: window.localStorage,
-//     reducer: state => ({
-//         user: state.user,
-//         jwt: state.jwtToken,
-//         isLoggedIn: state.isLoggedIn
-//     })
-// })
+const vuexLocalStorage = new VuexPersist({
+    key: 'torrents-app',
+    // storage: window.localStorage,
+    reducer: state => ({
+        torrentToSearch: state.torrentToSearch
+    })
+})
 
 import state from './state.js'
 import mutation from './mutations.js'

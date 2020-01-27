@@ -1,13 +1,38 @@
 <template>
   <div>
     <div class="torrent-providers" v-loading="loading">
-      <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card">
+        <el-tab-pane label="YTS" name="YTS">
+          <p v-if="!loading && ytsResults && ytsResults.length==0">No results in YTS</p>
+          <div v-else>
+            <div
+              @click="goto(torrent.torrentURL,ytsResults.name,torrent)"
+              v-for="(torrent,index) in ytsResults.torrents"
+              :key="torrent.torrentURL + index"
+            >
+              <el-card
+                class="torrent"
+                shadow="hover"
+                :class="{ clickable: !torrent.actualTorrent }"
+              >
+                <div>
+                  <h4 class="torrent-title">{{torrent.torrentName}}</h4>
+                </div>
+                <div v-if="torrent.actualTorrent" class="torrent-download-options">
+                  <MagnetIcon />
+                  <DownloadIcon />
+                </div>
+              </el-card>
+            </div>
+          </div>
+        </el-tab-pane>
         <el-tab-pane label="1337X" name="1337x">
           <p v-if="!loading && the1337xResults && the1337xResults.length==0">No results in 1337x</p>
           <div v-else>
             <div
               v-for="(torrent,index) in the1337xResults.torrents"
               :key="torrent.torrentURL + index"
+              @click="goto(torrent.torrentURL,the1337xResults.name,torrent)"
             >
               <el-card
                 shadow="hover"
@@ -17,8 +42,12 @@
                 <div>
                   <h4 class="torrent-title">{{torrent.torrentName}}</h4>
                   <div class="torrent-meta">
-                    <el-tag size="mini" effect="light" type="success">{{torrent.torrentSeeds}}</el-tag>
-                    <el-tag size="mini" effect="light" type="danger">{{torrent.torrentLeeches}}</el-tag>
+                    <el-tag size="mini" effect="light" type="success">{{torrent.torrentSeeds}} Seeds</el-tag>
+                    <el-tag
+                      size="mini"
+                      effect="light"
+                      type="danger"
+                    >{{torrent.torrentLeeches}} Leeches</el-tag>
                   </div>
                 </div>
                 <div v-if="torrent.actualTorrent" class="torrent-download-options">
@@ -29,30 +58,7 @@
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="YTS" name="yts">
-          <p v-if="!loading && ytsResults && ytsResults.length==0">No results in YTS</p>
-          <div v-else>
-            <div v-for="(torrent,index) in ytsResults.torrents" :key="torrent.torrentURL + index">
-              <el-card
-                class="torrent"
-                shadow="hover"
-                :class="{ clickable: !torrent.actualTorrent }"
-              >
-                <div>
-                  <h4 class="torrent-title">{{torrent.torrentName}}</h4>
-                  <div class="torrent-meta">
-                    <!-- <el-tag size="mini" effect="light">{{torrent.torrentName}}</el-tag> -->
-                    <!-- <el-tag size="mini" effect="light" type="danger">1298</el-tag> -->
-                  </div>
-                </div>
-                <div v-if="torrent.actualTorrent" class="torrent-download-options">
-                  <MagnetIcon />
-                  <DownloadIcon />
-                </div>
-              </el-card>
-            </div>
-          </div>
-        </el-tab-pane>
+
         <el-tab-pane label="Nyaa.si" name="nyaa.si">
           <p v-if="!loading && nyaasiResults && nyaasiResults.length==0">No results in Nyaa.si</p>
           <div v-else>
@@ -67,21 +73,19 @@
                     <el-tag size="mini" effect="light" type="info">{{torrent.torrentSize}}</el-tag>
                     <el-tag size="mini" effect="light" type="success">{{torrent.torrentSeeds}}</el-tag>
                     <el-tag size="mini" effect="light" type="danger">{{torrent.torrentLeeches}}</el-tag>
+                    <a
+                      :href="torrent.torrentMagnetLink"
+                      v-tooltip.top-start="{ content: 'Download Magnet', classes:'v-tooltip'}"
+                    >
+                      <MagnetIcon />
+                    </a>
+                    <a
+                      :href="torrent.torrentDownloadLink"
+                      v-tooltip.top-start="{ content: 'Download Torrent File', classes:'v-tooltip'}"
+                    >
+                      <DownloadIcon />
+                    </a>
                   </div>
-                </div>
-                <div v-if="torrent.actualTorrent" class="torrent-download-options">
-                  <a
-                    :href="torrent.torrentMagnetLink"
-                    v-tooltip.top-start="{ content: 'Download Magnet', classes:'v-tooltip'}"
-                  >
-                    <MagnetIcon />
-                  </a>
-                  <a
-                    :href="torrent.torrentDownloadLink"
-                    v-tooltip.top-start="{ content: 'Download Torrent File', classes:'v-tooltip'}"
-                  >
-                    <DownloadIcon />
-                  </a>
                 </div>
               </el-card>
             </div>
@@ -112,7 +116,7 @@ export default {
   data() {
     return {
       searchTerm: '',
-      activeName: '1337x',
+      activeName: 'YTS',
       searchResults: [],
       ytsResults: [],
       nyaasiResults: [],
@@ -121,8 +125,12 @@ export default {
     }
   },
   methods: {
-    goto(url) {
-      this.$router.push(`/search/${url}`)
+    goto(url, torrentSource, torrent) {
+      let torrentToSearchFor = torrent
+      torrentToSearchFor.torrentSource = torrentSource
+      // torrent.torrentSource = torrentSource
+      this.$store.commit('setTorrentToSearch', torrentToSearchFor)
+      this.$router.push(`/torrent?url=${url}&torrentSource=${torrentSource}`)
     },
     handleClick(tab, event) {
       // console.log(tab);

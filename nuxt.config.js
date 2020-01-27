@@ -13,14 +13,14 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { href: "https://fonts.googleapis.com/css?family=Open+Sans:600,700&display=swap", rel: "stylesheet" },
-      { href: "https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap", rel: "stylesheet" }
+      { href: "https://fonts.googleapis.com/css?family=Nunito:200,300,400&display=swap", rel: "stylesheet" },
+      { href: "https://fonts.googleapis.com/css?family=Playfair+Display&display=swap", rel: "stylesheet" }
     ]
   },
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: { color: '#4ecca3' },
   /*
   ** Global CSS
   */
@@ -34,7 +34,8 @@ export default {
   */
   plugins: [
     '@/plugins/element-ui',
-    '@/plugins/v-tooltip'
+    '@/plugins/v-tooltip',
+    { src: '~/plugins/vuex-persist', ssr: false },
   ],
   /*
   ** Nuxt.js dev-modules

@@ -1,13 +1,18 @@
 <template>
   <div class="navbar">
     <el-row type="flex" class="row-bg" justify="space-between" align="center">
-      <el-col :span="12" :xs="8" :sm="8" :md="12">
+      <el-col :span="12" :xs="12" :sm="8" :md="12">
         <nuxt-link to="/" class="site-title">Torrents</nuxt-link>
       </el-col>
-      <el-col :span="6" :xs="16" :sm="16" :md="6">
+      <el-col :span="6" :xs="12" :sm="16" :md="6">
         <div class="grid-content bg-purple-light">
           <form @submit.prevent="searchTorrent">
-            <el-input size="medium" placeholder="Search movies, animes, games etc" v-model="searchTerm" clearable></el-input>
+            <el-input
+              size="medium"
+              placeholder="Search movies, animes, games etc"
+              v-model="searchTerm"
+              clearable
+            ></el-input>
           </form>
         </div>
       </el-col>
@@ -22,10 +27,10 @@ export default {
       searchTerm: ''
     }
   },
-  methods:{
-    searchTorrent(){
-      if(this.searchTerm!==''){
-        this.$router.push(`/search?q=${this.searchTerm}`);
+  methods: {
+    searchTorrent() {
+      if (this.searchTerm !== '') {
+        this.$router.push(`/search?q=${this.searchTerm}`)
       }
     }
   }
@@ -33,7 +38,6 @@ export default {
 </script>
 
 <style>
-
 .row-bg {
   align-items: center;
 }
@@ -41,7 +45,5 @@ export default {
   font-size: 24px;
   color: white;
   text-decoration: none;
-  text-transform: uppercase;
-  font-family: 'Open Sans', 'Courier New', Courier, monospace;
 }
 </style>
